@@ -1,4 +1,7 @@
-from fastapi import FastAPI
+# from fastapi import FastAPI, Depends
+# from database import Base, engine, get_db
+# from schemas import Link
+# from models import LinkCreate
 
 app = FastAPI()
 
@@ -24,7 +27,7 @@ def create_link(display_name: str, url: str) -> Link:
     link.display_name = display_name
     link.url = url
     links.append(link)
-    return link
+    # return "test"
 
 
 @app.get("/api/links")
