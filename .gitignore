@@ -24,3 +24,4 @@ front-end/yarn-debug.log*
 front-end/yarn-error.log*
 
 back-end/__pycache__
+back-end/database/__pycache__
