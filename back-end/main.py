@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from database import Base, engine, get_db 
-from schemas import Link
+from requests import delete
+from database.settings import Base, engine, get_db
 from models import LinkCreate
+from database.crud import get_all_links, create_db_link, delete_db_link
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
@@ -25,16 +26,15 @@ def read_root():
 
 @app.post("/api/link")
 def create_link(link: LinkCreate, db = Depends(get_db)):
-    db_link = Link(display_name = link.display_name, url = link.url)
-    db.add(db_link)
-    db.commit()
-    db.refresh(db_link)
-    return db_link 
+    return create_db_link(link, db)
 
 # Silly comment
 
 # Silly comment
 @app.get("/api/links")
 def get_links(db = Depends(get_db)):
-    return db.query(Link).all() 
+    return get_all_links(db)
 
+@app.delete("/api/link/delete")
+def delete_link(id: int, db = Depends(get_db)):
+    return delete_db_link(id, db)
